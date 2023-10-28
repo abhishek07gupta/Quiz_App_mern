@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import data from '../database/data';
+import { useFetchQuestion } from '../hooks/FetchQuestions';
+
 
 export default function Questions() {
     // define state checked
     const [checked, setChecked] = useState(undefined);
-
+    const [{isLoading,apiData,serverError}]=useFetchQuestion()
     const question = data[0]
+
+    useEffect(()=>{
+        console.log(isLoading)
+        console.log(apiData)
+        console.log(serverError)
+    })
 
     // this function will work when the option is selected
     function onSelect() {
