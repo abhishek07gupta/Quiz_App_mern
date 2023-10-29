@@ -12,17 +12,21 @@ export const resultReducer=createSlice(
                 state.userId=action.payload
             },
             pushResultAction:(state,action)=>{
-                state.result.push(action.paylaod)
+                state.result.push(action.payload)
             },
             resetResultAction:()=>{
                 return {
                     userId:null,
                     result:[]
                 }
+            },
+            updateResultAction: (state,action)=>{
+                const {trace,checked}=action.payload;
+                state.result.fill(checked,trace,trace+1)
             }
         }
     }
 )
 
-export const {setUserId,pushResultAction,resetResultAction} = resultReducer.actions;
+export const {setUserId,pushResultAction,resetResultAction,updateResultAction} = resultReducer.actions;
 export default resultReducer.reducer;

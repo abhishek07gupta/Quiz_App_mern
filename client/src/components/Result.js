@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import ResultTable from './ResultTable'
 import '../styles/Result.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetAllAction } from '../redux/questionReducer'
+import { resetResultAction } from '../redux/resultReducer'
+import { attempts_Number, earnPoints_Number,flagResult } from '../helperFunctions/helper'
 
 export default function Result() {
+
+    const dispatch=useDispatch()
+    const {questions:{queue,answers},result:{result,userId}} = useSelector(state=>state)
+
+    useEffect(()=>{
+        console.log(result);
+    })
+
+    const totalPoints=queue.length * 10;
+    const attempts=attempts_Number(result)
+    const earnPoints=earnPoints_Number(result,answers,10)
+    const flag= flagResult(totalPoints,earnPoints)
+
+
     function onRestart(){
-        console.log('on restart')
+        dispatch(resetAllAction());
+        dispatch(resetResultAction())
     }
   return (
     <div className="container">
@@ -18,23 +37,23 @@ export default function Result() {
             </div>
             <div className="flex">
                 <span>Maximum Score</span>
-                <span className="bold">50</span>
+                <span className="bold">{totalPoints}</span>
             </div>
             <div className="flex">
                 <span>Total Questions</span>
-                <span className="bold">03</span>
+                <span className="bold">{queue.length || 0}</span>
             </div>
             <div className="flex">
-                <span>Total Attempts</span>
-                <span className="bold">02</span>
+                <span>Total Attempted</span>
+                <span className="bold">{attempts || 0}</span>
             </div>
             <div className="flex">
                 <span>Your Score</span>
-                <span className="bold">30</span>
+                <span className="bold">{earnPoints || 0}</span>
             </div>
             <div className="flex">
                 <span>Quiz Result</span>
-                <span className="bold">Passed</span>
+                <span style={{color:`${flag?"green":"red"}`}} className="bold">{flag?"Passed":"Failed"}</span>
             </div>
         </div>
         <div className="start">

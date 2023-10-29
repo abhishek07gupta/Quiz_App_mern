@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react"
-import data from "../database/data"
+import data, { answers } from "../database/data"
 import { useDispatch } from "react-redux"
 import * as Action from '../redux/questionReducer'
 
 export const useFetchQuestion = () => {
   const dispatch = useDispatch();
   const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null })
+  
   useEffect(() => {
     setGetData(prev => ({ ...prev, isLoading: true }))
 
-      // now async function to get the data(from local file for now)  
       (async () => {
         try {
           let question = await data;
           if (question.length > 0) {
             setGetData(prev => ({ ...prev, isLoading: false }))
-            setGetData(prev => ({ ...prev, apiData: question }))
+            setGetData(prev => ({ ...prev, apiData: { question, answers } }))
 
             // dispatching action 
-            dispatch(Action.startExamAction(question))
+            dispatch(Action.startExamAction({ question, answers }))
           } else {
             throw new Error("no Questions Available")
           }

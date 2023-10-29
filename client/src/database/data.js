@@ -1,4 +1,4 @@
-export default [
+export default  [
     {
         id:1,
         question:'Sample question 1',
@@ -27,3 +27,5 @@ export default [
         ]
     }
 ]
+
+export const answers=[0,2,1,0]

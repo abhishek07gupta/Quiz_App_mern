@@ -5,7 +5,7 @@ import  resultReducer  from './resultReducer'
 
 const rootReducer=combineReducers({
     questions : questionReducer,
-    // results   : resultReducer
+    result   : resultReducer
 })
 
 export default configureStore({

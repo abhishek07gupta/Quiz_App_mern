@@ -11,16 +11,15 @@ export default function Quiz() {
     const result=useSelector(state=>state.result.result)
 
     const dispatch=useDispatch()
-    useEffect(()=>{
-        console.log(trace);
-    })
 
     function onNext(){
-        console.log("button is clicked");
         if(trace!==queue.length){
-            dispatch(PushAsnwer(check))
             dispatch(moveNextQuestion())
+            if(result.length<=trace){
+                dispatch(PushAsnwer(check))
+            }
         }
+        setChecked(undefined)
     }
     function onPrev(){
         console.log("button is clicked prev");
@@ -45,7 +44,8 @@ export default function Quiz() {
         </h1>
             <Questions onChecked={onChecked}/>
         <div className="grid">
-             <button className="btn prev" onClick={onPrev}>Prev</button>
+            {trace >0?<button className="btn prev" onClick={onPrev}>Prev</button>: <div></div>}
+             
              <button className="btn next" onClick={onNext}>Next</button>
 
         </div>
