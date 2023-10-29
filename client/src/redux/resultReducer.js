@@ -7,7 +7,7 @@ export const resultReducer=()=>createSlice(
             userId:null,
             result:[]
         },
-        reducers:{
+        reducers : {
             setUserId: (state,action)=>{
                 state.userId=action.payload
             }
@@ -15,5 +15,5 @@ export const resultReducer=()=>createSlice(
     }
 )
 
-export const {setUserId} = resultReducer.actions;
+// export const {setUserId} = resultReducer.actions;
 export default resultReducer.reducer;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
-import data from '../database/data';
+import { useSelector } from 'react-redux';
 import { useFetchQuestion } from '../hooks/FetchQuestions';
 
 
@@ -8,7 +7,11 @@ export default function Questions() {
     // define state checked
     const [checked, setChecked] = useState(undefined);
     const [{isLoading,apiData,serverError}]=useFetchQuestion()
-    const question = data[0]
+
+    const questions =useSelector(state=>state.questions.queue[state.questions.trace]);
+    useEffect(()=>{
+        // console.log(questions);
+    })
 
     useEffect(()=>{
         console.log(isLoading)
@@ -22,13 +25,15 @@ export default function Questions() {
         console.log("button clicked radio");
     }
 
+    if(isLoading)return <h3 className='text-light'>is loading</h3>
+    if(serverError) return <h3 className='text-light'>{serverError.message || "Unknown Error"}</h3>
     return (
         <div className="questions">
-            <h2 className="text-light">{question.question}</h2>
+            <h2 className="text-light">{questions?.question}</h2>
 
-            <ul key={question.id}>
+            <ul key={questions?.id}>
                 {
-                    question.options.map((q, i) => {
+                    questions?.options.map((q, i) => {
                         return (
                             <li key={i}>
                             <input type="radio" value={true} name='options' id={`q${i}-option`} onChange={onSelect} />
