@@ -1,5 +1,5 @@
 import  Questions  from "../models/questionSchema.js";
-import result from "../models/resultSchema.js"
+import Result from "../models/resultSchema.js"
 import questions,{answers} from '../database/data.js'
 
 
@@ -33,13 +33,31 @@ export async function dropQuestions(req,res){
 
 
 export async function getResult(req,res){
-    res.json('result from api')
+    try{
+        const r =await Result.find();
+        res.json(r)
+    }catch(error){
+        res.json({error})
+    }
 }
 
 export async function storeResult(req,res){
-    res.json('add result from api');
+    try{
+        const {username,result,attempts,points,achived}=req.body;
+        if(!username && !result) throw new Error("data not provided");
+
+        await Result.create({username,result,attempts,points,achived})
+        res.json({msg:'result created successfully'})
+    }catch(error){
+        res.json({error})
+    }
 }
 
 export async function dropResult(req,res){
-    res.json('drop result from api');
+    try{
+        await Result.deleteMany();
+        res.json({msg: 'result deleted successfully'})
+    }catch(error){
+        res.json({error})
+    }
 }
