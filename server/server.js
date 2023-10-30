@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import { config } from 'dotenv'
 import router from './router/route.js'
-
+import connect from './database/connection.js'
 
 const app=express()
 
@@ -27,6 +27,15 @@ app.get('/',(req,res)=>{
     }
 })
 
-app.listen(port,()=>{
-    console.log(`server is running on ${port}`);
-})
+connect().then(()=>{
+    try{
+        app.listen(port,()=>{
+            console.log(`server is running on ${port}`);
+        })
+    }catch(error){
+        console.log('server connection failed')
+    }
+}).catch(error=>{
+    console.log('invalid db connection')
+});
+
